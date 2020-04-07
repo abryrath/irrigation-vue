@@ -5,6 +5,10 @@ import store from './store';
 import Element from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 
+declare module 'feather-icons' {
+  public replace: void;
+}
+
 Vue.config.productionTip = false;
 Vue.use(Element);
 

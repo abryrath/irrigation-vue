@@ -6,52 +6,23 @@
       shadow="always"
     >
       <h3 class="medium">{{ dateTimeString }}</h3>
-      <IconSunny />
+
     </el-card>
   </el-col>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import IconSunny from '@/components/icons/IconSunny.vue';
+import SunIcon from 'vue-feather-icons/icons/SunIcon';
 import moment from 'moment';
-import feather from 'feather-icons';
+
 import { IForecast } from '@/interfaces';
 import { format, toDateTime } from '@/util/time';
 
 @Component({
   components: {
-    IconSunny
+    IconSunny,
   },
-  computed: {
-    dateTime: {
-      get() {
-        return toDateTime(this.$props.forecast.dt);
-      }
-    },
-    dateDiff: {
-      get() {
-        const dt = this.dateTime;
-        const now = moment();
-        return moment.duration(now.diff(dt));
-      }
-    },
-    past: {
-      get() {
-        const diff = this.dateDiff;
-        console.log('past', diff);
-        return parseInt(diff.get('hours')) > 3;
-      }
-    },
-    current: {
-      get() {
-        const diff = this.dateDiff;
-        const hours = parseInt(diff.get('hours'));
-        console.log('current', hours);
-        return hours <= 3 && hours > 0;
-      }
-    }
-  }
 })
 export default class Forecast extends Vue {
   @Prop() public forecast: IForecast | null;
@@ -59,6 +30,27 @@ export default class Forecast extends Vue {
 
   public mounted() {
     feather.replace();
+  }
+
+  get dateTime() {
+    return toDateTime(this.$props.forecast.dt);
+  }
+
+  get dateDiff() {
+    const dt = this.dateTime;
+    const now = moment();
+    return moment.duration(now.diff(dt));
+  }
+  get past() {
+    const diff = this.dateDiff;
+    console.log('past', diff);
+    return diff.get('hours') > 3;
+  }
+  get current() {
+    const diff = this.dateDiff;
+    const hours = diff.get('hours');
+    // console.log('current', hours);
+    return hours <= 3 && hours > 0;
   }
 
   public get dateTimeString() {

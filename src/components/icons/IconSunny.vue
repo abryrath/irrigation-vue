@@ -8,3 +8,4 @@ import feather from 'feather-icons';
 
 @Component
 export default class IconSunny extends Vue {}
+</script>
