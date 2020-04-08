@@ -1,13 +1,15 @@
 <template>
-  <div :class="containerClass" shadow="always">
-    <SunIcon v-if="$props.forecast.clouds < 100" />
+  <div :class="containerClass">
+    <p>Clouds: {{ clouds }}</p>
+    <SunIcon v-if="clouds < 50" />
+    <CloudIcon v-else-if="clouds >= 50"/>
     <h3 class="medium">{{ dateTimeString }}</h3>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import { SunIcon } from 'vue-feather-icons';
+import { SunIcon, CloudIcon } from 'vue-feather-icons';
 import moment from 'moment';
 
 import { IForecast } from '@/interfaces';
@@ -16,11 +18,16 @@ import { format, toDateTime } from '@/util/time';
 @Component({
   components: {
     SunIcon,
+    CloudIcon,
   },
 })
 export default class Forecast extends Vue {
   @Prop() public forecast!: IForecast;
   @Prop() private offset!: number;
+
+  get clouds(): number {
+    return this.$props.forecast.clouds.all;
+  }
 
   get dateTime(): moment.Moment {
     return toDateTime(this.$props.forecast.dt);

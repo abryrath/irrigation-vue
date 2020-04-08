@@ -1,5 +1,5 @@
 <template>
-  <div class="home container-lg">
+  <div class="home">
     <ForecastContainer />
     <ManualRunContainer />
   </div>
