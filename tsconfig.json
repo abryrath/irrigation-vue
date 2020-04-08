@@ -12,7 +12,9 @@
     "sourceMap": true,
     "baseUrl": ".",
     "types": [
-      "webpack-env"
+      "webpack-env",
+      "vue-feather-icons.d.ts",
+      "vue-tailwind.d.ts"
     ],
     "paths": {
       "@/*": [

@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 export interface IForecast {
   clouds: IClouds;
   dt: number;
@@ -38,4 +40,12 @@ export interface IWeather {
 export interface IWind {
   deg: number;
   speed: number;
+}
+
+export interface IForecastResponse {
+  list: IForecast[];
+}
+
+export interface ILastRunResponse {
+  dateTime: moment.Moment;
 }

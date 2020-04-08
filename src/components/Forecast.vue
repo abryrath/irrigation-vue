@@ -1,19 +1,13 @@
 <template>
-  <el-col :span="8" :offset="$props.offset || 0">
-    <el-card
-      :class="{ current: current, past: past, future: !current && !past }"
-      :body-style="{ padding: '20px' }"
-      shadow="always"
-    >
-      <h3 class="medium">{{ dateTimeString }}</h3>
-
-    </el-card>
-  </el-col>
+  <div :class="containerClass" shadow="always">
+    <SunIcon v-if="$props.forecast.clouds < 100" />
+    <h3 class="medium">{{ dateTimeString }}</h3>
+  </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import SunIcon from 'vue-feather-icons/icons/SunIcon';
+import { SunIcon } from 'vue-feather-icons';
 import moment from 'moment';
 
 import { IForecast } from '@/interfaces';
@@ -21,52 +15,56 @@ import { format, toDateTime } from '@/util/time';
 
 @Component({
   components: {
-    IconSunny,
+    SunIcon,
   },
 })
 export default class Forecast extends Vue {
-  @Prop() public forecast: IForecast | null;
+  @Prop() public forecast!: IForecast;
   @Prop() private offset!: number;
 
-  public mounted() {
-    feather.replace();
-  }
-
-  get dateTime() {
+  get dateTime(): moment.Moment {
     return toDateTime(this.$props.forecast.dt);
   }
 
-  get dateDiff() {
+  get dateDiff(): moment.Duration {
     const dt = this.dateTime;
     const now = moment();
     return moment.duration(now.diff(dt));
   }
-  get past() {
+  get past(): boolean {
     const diff = this.dateDiff;
-    console.log('past', diff);
     return diff.get('hours') > 3;
   }
-  get current() {
+  get current(): boolean {
     const diff = this.dateDiff;
     const hours = diff.get('hours');
-    // console.log('current', hours);
     return hours <= 3 && hours > 0;
   }
 
-  public get dateTimeString() {
+  get dateTimeString(): string {
     return this.$props.forecast ? format(this.$props.forecast.dt) : '';
+  }
+
+  get containerClass(): any {
+    return {
+      current: this.current,
+      past: this.past,
+      future: !this.current && !this.past,
+      'p-10': true,
+      'm-2': true,
+    };
   }
 }
 </script>
 
 <style scoped lang="scss">
 .current {
-  background-color: green;
+  background-color: #cccccc;
 }
 .past {
-  background-color: gray;
+  background-color: #888888;
 }
 .future {
-  background-color: yellow;
+  background-color: #e8e8e8;
 }
 </style>

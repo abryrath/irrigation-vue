@@ -2,15 +2,11 @@ import Vue from 'vue';
 import App from './App.vue';
 import router from './router';
 import store from './store';
-import Element from 'element-ui';
-import 'element-ui/lib/theme-chalk/index.css';
-
-declare module 'feather-icons' {
-  public replace: void;
-}
+import VueTailwind from 'vue-tailwind';
+import '@/app.scss';
 
 Vue.config.productionTip = false;
-Vue.use(Element);
+Vue.use(VueTailwind);
 
 new Vue({
   router,
