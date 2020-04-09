@@ -25,7 +25,7 @@ export default class ForecastClient extends Vue {
   // @Prop({}) public response!: IForecastResponse | null;
   // private loading: boolean = true;
   private error: boolean = false;
-  private forecastModule: ForecastStore;
+  private forecastModule: ForecastStore | undefined = undefined;
   // private forecast?: IForecastResponse;
 
   public created() {
@@ -37,14 +37,10 @@ export default class ForecastClient extends Vue {
   }
 
   get forecasts(): IForecast[] {
-    // console.log('forecasts', this.forecast.list);
-    try {
-      return this.forecastModule.day
-        ? this.forecastModule.day.forecasts
-        : [];
-    } catch (e) {
+    if (!this.forecastModule) {
       return [];
     }
+    return this.forecastModule.day ? this.forecastModule.day.forecasts : [];
   }
 }
 </script>

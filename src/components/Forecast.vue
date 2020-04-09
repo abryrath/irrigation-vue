@@ -36,7 +36,7 @@ export default class Forecast extends Vue {
     const h: number = this.$props.forecast.hour;
     if (h < 12) {
       return `${h}am`;
-    } else if (h == 12) {
+    } else if (h === 12) {
       return '12pm';
     } else {
       return `${h - 12}pm`;
@@ -60,12 +60,12 @@ export default class Forecast extends Vue {
 
   get containerClass(): any {
     return {
-      current: this.current,
-      past: this.past,
-      future: !this.current && !this.past,
+      'current': this.current,
+      'past': this.past,
+      'future': !this.current && !this.past,
       'p-2': true,
       'm-2': true,
-      flex: true,
+      'flex': true,
       'flex-col': true,
       'md:flex-row': true,
     };

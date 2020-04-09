@@ -1,7 +1,7 @@
 <template>
   <div>
-    Day Overview<br/>
-    Sunrise: {{ sunrise }}<br/>
+    Day Overview<br />
+    Sunrise: {{ sunrise }}<br />
     Sunset: {{ sunset }}
   </div>
 </template>
@@ -15,13 +15,17 @@ import { formatTimeOnly } from '../util/time';
 
 @Component
 export default class DayOverview extends Vue {
-  private forecastModule: ForecastStore;
+  private forecastModule: ForecastStore | undefined;
   public created() {
     this.forecastModule = getModule(ForecastStore, this.$store);
   }
 
   get sunrise(): string {
-    let sr = this.forecastModule.day ? this.forecastModule.day.sunrise : '';
+    if (!this.forecastModule) {
+      return 'loading';
+    }
+
+    const sr = this.forecastModule.day ? this.forecastModule.day.sunrise : '';
     if (!sr.length) {
       return 'loading';
     }
@@ -29,7 +33,10 @@ export default class DayOverview extends Vue {
     return formatTimeOnly(m);
   }
   get sunset(): string {
-    let ss = this.forecastModule.day ? this.forecastModule.day.sunset : '';
+    if (!this.forecastModule) {
+      return 'loading';
+    }
+    const ss = this.forecastModule.day ? this.forecastModule.day.sunset : '';
     if (!ss.length) {
       return 'loading';
     }
