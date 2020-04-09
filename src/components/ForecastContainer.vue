@@ -9,10 +9,12 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
+import { getModule } from 'vuex-module-decorators';
 import { format } from '@/util/time';
 import Forecast from '@/components/Forecast.vue';
 import { fetchForecastToday } from '@/util/api';
-import { IForecast, IForecastResponse } from '../interfaces';
+import { IForecast, IDate } from '../interfaces';
+import ForecastStore from '../store/forecast';
 
 @Component({
   components: {
@@ -23,7 +25,12 @@ export default class ForecastClient extends Vue {
   // @Prop({}) public response!: IForecastResponse | null;
   // private loading: boolean = true;
   private error: boolean = false;
+  private forecastModule: ForecastStore;
   // private forecast?: IForecastResponse;
+
+  public created() {
+    this.forecastModule = getModule(ForecastStore, this.$store);
+  }
 
   get loading(): boolean {
     return this.forecasts.length === 0;
@@ -32,8 +39,8 @@ export default class ForecastClient extends Vue {
   get forecasts(): IForecast[] {
     // console.log('forecasts', this.forecast.list);
     try {
-      return this.$store.state.forecast
-        ? this.$store.state.forecast.list.slice(0, 5)
+      return this.forecastModule.day
+        ? this.forecastModule.day.forecasts
         : [];
     } catch (e) {
       return [];

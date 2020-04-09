@@ -1,9 +1,16 @@
 <template>
   <div :class="containerClass">
-    <p>Clouds: {{ clouds }}</p>
-    <SunIcon v-if="clouds < 50" />
-    <CloudIcon v-else-if="clouds >= 50"/>
-    <h3 class="medium">{{ dateTimeString }}</h3>
+    <div>
+      <p class="text-lg">{{ hour }}</p>
+    </div>
+    <div>
+      <CloudIcon v-if="$props.forecast.summary == 'Clouds'" />
+      <SunIcon v-else />
+    </div>
+    <div>
+      <p class="text-xl">{{ temp }}&deg;</p>
+      <p class="text-md">feels like {{ feelsLike }}&deg;</p>
+    </div>
   </div>
 </template>
 
@@ -25,31 +32,30 @@ export default class Forecast extends Vue {
   @Prop() public forecast!: IForecast;
   @Prop() private offset!: number;
 
-  get clouds(): number {
-    return this.$props.forecast.clouds.all;
+  get hour(): string {
+    const h: number = this.$props.forecast.hour;
+    if (h < 12) {
+      return `${h}am`;
+    } else if (h == 12) {
+      return '12pm';
+    } else {
+      return `${h - 12}pm`;
+    }
   }
 
-  get dateTime(): moment.Moment {
-    return toDateTime(this.$props.forecast.dt);
+  get temp(): number {
+    return this.$props.forecast.temp;
   }
 
-  get dateDiff(): moment.Duration {
-    const dt = this.dateTime;
-    const now = moment();
-    return moment.duration(now.diff(dt));
+  get feelsLike(): number {
+    return this.$props.forecast.feels_like;
   }
+
   get past(): boolean {
-    const diff = this.dateDiff;
-    return diff.get('hours') > 3;
+    return false;
   }
   get current(): boolean {
-    const diff = this.dateDiff;
-    const hours = diff.get('hours');
-    return hours <= 3 && hours > 0;
-  }
-
-  get dateTimeString(): string {
-    return this.$props.forecast ? format(this.$props.forecast.dt) : '';
+    return true;
   }
 
   get containerClass(): any {
@@ -57,8 +63,11 @@ export default class Forecast extends Vue {
       current: this.current,
       past: this.past,
       future: !this.current && !this.past,
-      'p-10': true,
+      'p-2': true,
       'm-2': true,
+      flex: true,
+      'flex-col': true,
+      'md:flex-row': true,
     };
   }
 }

@@ -1,51 +1,26 @@
-import moment from 'moment';
-
 export interface IForecast {
-  clouds: IClouds;
-  dt: number;
-  dt_txt: string;
-  main: IMain;
-  sys: ISys;
-  weather: IWeather[];
-  wind: IWind;
-}
-
-export interface IClouds {
-  all?: number;
-}
-
-export interface IMain {
-  feels_like: number;
-  grnd_level: number;
+  hour: number;
   humidity: number;
-  pressure: number;
-  sea_level: number;
   temp: number;
-  temp_kf: number;
-  temp_max: number;
-  temp_min: number;
-}
-
-export interface ISys {
-  pod: string;
-}
-
-export interface IWeather {
+  feels_like: number;
   description: string;
-  icon: string;
-  id: number;
-  main: string;
+  summary: string;
+  wind_speed: number;
+  wind_dir: number;
+  pressure: number;
 }
 
-export interface IWind {
-  deg: number;
-  speed: number;
+export interface IDate {
+  year: number;
+  month: number;
+  day: number;
+  weekday: string;
+  sunrise: string;
+  sunset: string;
+  inserted_at: string;
+  forecasts: IForecast[];
 }
 
-export interface IForecastResponse {
-  list: IForecast[];
-}
-
-export interface ILastRunResponse {
-  dateTime: moment.Moment;
+export interface ILastRun {
+  inserted_at: string;
 }

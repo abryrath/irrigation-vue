@@ -1,11 +1,19 @@
-import { IForecastResponse, ILastRunResponse } from '@/interfaces';
+import { IDate, ILastRun } from '@/interfaces';
 
-export const baseUrl = 'http://api.iri.abryrath.com:9090';
-
-export const fetchForecastToday = (): Promise<IForecastResponse> => {
-  return fetch(`${baseUrl}/forecast/today`).then((resp) => resp.json()) as Promise<IForecastResponse>;
+// export const baseUrl = 'http://api.iri.abryrath.com:9090';
+export const baseUrl = 'http://localhost:4000';
+const headers = new Headers();
+headers.append('Access-Control-Allow-Origin', '*');
+const opts = {
+  mode: 'cors',
+  credentials: 'include',
+  headers,
 };
 
-export const fetchLastRun = (): Promise<ILastRunResponse> => {
-  return fetch(`${baseUrl}/history/last-run`).then((resp) => resp.json()) as Promise<ILastRunResponse>;
+export const fetchForecastToday = (): Promise<IDate> => {
+  return fetch(`${baseUrl}/forecast/today`, opts).then((resp) => resp.json()) as Promise<IDate>;
+};
+
+export const fetchLastRun = (): Promise<ILastRun> => {
+  return fetch(`${baseUrl}/history/latest`).then((resp) => resp.json()) as Promise<ILastRun>;
 };

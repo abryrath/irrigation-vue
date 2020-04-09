@@ -1,5 +1,6 @@
 <template>
   <div class="home">
+    <DayOverview />
     <ForecastContainer />
     <ManualRunContainer />
   </div>
@@ -7,27 +8,25 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-// import HelloWorld from '@/components/HelloWorld.vue'; // @ is an alias to /src
+import DayOverview from '@/components/DayOverview.vue';
 import ForecastContainer from '@/components/ForecastContainer.vue';
 import ManualRunContainer from '@/components/ManualRunContainer.vue';
-import { IForecastResponse } from '../interfaces';
+import { IDate } from '../interfaces';
 import { fetchForecastToday } from '../util/api';
+import { getModule } from 'vuex-module-decorators';
+import ForecastStore from '../store/forecast';
 
 @Component({
   components: {
-    // HelloWorld,
+    DayOverview,
     ForecastContainer,
     ManualRunContainer,
   },
 })
 export default class Home extends Vue {
-  public forecastResponse?: IForecastResponse = undefined;
   private mounted() {
-    this.$store.dispatch('fetchForecast');
-  }
-
-  get forecast(): IForecastResponse | null {
-    return this.forecastResponse ? this.forecastResponse : null;
+    const forecastModule = getModule(ForecastStore, this.$store);
+    forecastModule.fetchAll();
   }
 }
 </script>
