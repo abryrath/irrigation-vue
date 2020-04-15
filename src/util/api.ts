@@ -1,21 +1,26 @@
 import { IDate, ILastRun } from '@/interfaces';
+import ky from 'ky';
 
-// export const baseUrl = 'http://api.iri.abryrath.com:9090';
-export const baseUrl = 'http://localhost:4000';
-const headers = new Headers();
-headers.append('Access-Control-Allow-Origin', '*');
-const opts: RequestInit = {
-  mode: 'cors',
-  credentials: 'include',
-  headers,
-};
+export const baseUrl = 'http://127.0.0.1:4000';
+
+// const headers = new Headers();
+// headers.append('Access-Control-Allow-Origin', '*');
+
+export const client = ky.create({
+  prefixUrl: baseUrl,
+  // credentials: 'include',
+  // mode: 'cors',
+  // headers: headers,
+});
 
 export const fetchForecastToday = (): Promise<IDate> => {
-  return fetch(`${baseUrl}/forecast/today`, opts)
+  return client
+    .get('forecast/today')
     .then((resp: Response) => resp.json()) as Promise<IDate>;
 };
 
 export const fetchLastRun = (): Promise<ILastRun> => {
-  return fetch(`${baseUrl}/history/latest`)
+  return client
+    .get('history/latest')
     .then((resp: Response) => resp.json()) as Promise<ILastRun>;
 };

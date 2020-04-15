@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="flex fle">
     Day Overview<br />
     Sunrise: {{ sunrise }}<br />
     Sunset: {{ sunset }}

@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col lg:flex-row p-2 m-2">
+  <div class="flex flex-col lg:flex-row p-2 m-2 align-items justify-center">
     <div v-if="$store.state.forecastLoading">Loading...</div>
     <div v-else-if="error">Error</div>
 
