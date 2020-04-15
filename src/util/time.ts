@@ -23,4 +23,8 @@ export const timeOfDay = (hour: number): string => {
   } else {
     return `${hour - 12}pm`;
   }
-}
+};
+
+export const timeToSeconds = (m: Moment): number => {
+  return (m.get('hour') * 60 * 60) + (m.get('seconds') * 60);
+};

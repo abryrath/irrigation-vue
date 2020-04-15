@@ -1,7 +1,6 @@
 <template>
   <div class="home">
-    <DayOverview />
-    <ForecastContainer />
+    <!-- <ForecastContainer /> -->
     <ManualRunContainer />
   </div>
 </template>
@@ -13,8 +12,6 @@ import ForecastContainer from '@/components/ForecastContainer.vue';
 import ManualRunContainer from '@/components/ManualRunContainer.vue';
 import { IDate } from '../interfaces';
 import { fetchForecastToday } from '../util/api';
-import { getModule } from 'vuex-module-decorators';
-import ForecastStore from '../store/forecast';
 
 @Component({
   components: {
@@ -24,9 +21,6 @@ import ForecastStore from '../store/forecast';
   },
 })
 export default class Home extends Vue {
-  private mounted() {
-    const forecastModule = getModule(ForecastStore, this.$store);
-    forecastModule.fetchAll();
-  }
+
 }
 </script>

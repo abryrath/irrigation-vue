@@ -8038,7 +8038,7 @@ vue-popperjs@^2.1.0:
     opencollective-postinstall "^2.0.2"
     popper.js "^1.15.0"
 
-vue-property-decorator@^8.1.0:
+vue-property-decorator@^8.0.0, vue-property-decorator@^8.1.0:
   version "8.4.1"
   resolved "https://registry.yarnpkg.com/vue-property-decorator/-/vue-property-decorator-8.4.1.tgz#fd8045b8678e1348fed57f9149279e00e404ed38"
   integrity sha512-8R4Us7DxFO0rwAL/2fv6vaZL8Oa4n/HGanHODYGTcvQHwT0FYJr9UuuFm2GoWAIXQu1mDO03HNeHswFp9vmTVA==
@@ -8049,6 +8049,13 @@ vue-router@^3.0.3:
   version "3.1.6"
   resolved "https://registry.yarnpkg.com/vue-router/-/vue-router-3.1.6.tgz#45f5a3a3843e31702c061dd829393554e4328f89"
   integrity sha512-GYhn2ynaZlysZMkFE5oCHRUTqE8BWs/a9YbKpNLi0i7xD6KG1EzDqpHQmv1F5gXjr8kL5iIVS8EOtRaVUEXTqA==
+
+vue-slider-component@^3.1.1:
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/vue-slider-component/-/vue-slider-component-3.1.1.tgz#00727a3d3eee9a4e4e940a9f45afdfcefbb99308"
+  integrity sha512-5BagCDOqK7q3WRdQrT16cjfSDPp1/VxKDk0i92u1tRT03fPJKzYmkbWSeJVHuET5IB9nVWuTGUPgUo0jTzQ3QQ==
+  dependencies:
+    vue-property-decorator "^8.0.0"
 
 vue-style-loader@^4.1.0:
   version "4.1.2"

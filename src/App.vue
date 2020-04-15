@@ -2,11 +2,26 @@
   <div id="app" class="container mx-auto">
     <div id="nav">
       <router-link to="/">Home</router-link> |
+      <router-link to="/forecast">Forecast</router-link> |
       <router-link to="/about">About</router-link>
     </div>
-    <router-view/>
+    <router-view />
   </div>
 </template>
+
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator';
+import { getModule } from 'vuex-module-decorators';
+import ForecastStore from '@/store/forecast';
+
+@Component
+export default class App extends Vue {
+  private mounted() {
+    const forecastModule = getModule(ForecastStore, this.$store);
+    forecastModule.fetchAll();
+  }
+}
+</script>
 
 <style lang="scss">
 #app {

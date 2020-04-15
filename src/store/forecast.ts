@@ -26,17 +26,22 @@ export default class ForecastStore extends VuexModule {
     this.lastRunLoading = false;
   }
 
-  @MutationAction({ mutate: ['day', 'lastRun'] })
+  @MutationAction({ mutate: ['day', 'lastRun', 'dayLoading', 'lastRunLoading'] })
   public async fetchAll() {
+    const dayLoading = false;
+    const lastRunLoading = false;
     const day: IDate = await fetchForecastToday().then(
       (dayResp: IDate) => dayResp,
     );
     const lastRun: ILastRun = await fetchLastRun().then(
       (lastRunResp: ILastRun) => lastRunResp,
     );
+
     return {
       day,
       lastRun,
+      dayLoading,
+      lastRunLoading,
     };
   }
 }
