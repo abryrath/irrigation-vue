@@ -1,16 +1,29 @@
 <template>
-  <div :class="containerClass">
-    <div>
-      <p class="text-lg">{{ hour }}</p>
+  <div :class="{ hidden: !$props.active }">
+    <div
+      class="relative w-full md:w-2/5 overflow-hidden rounded-t-lg md:rounded-t-none md:rounded-l-lg"
+      style="min-height: 7rem;"
+    >
+      <div class="absolute inset-0 w-full h-full p-2">
+        <CloudIcon
+          v-if="$props.forecast.summary == 'Clouds'"
+          class="w-full h-24"
+        />
+        <SunIcon v-else class="w-full h-24"
+      />
+      </div>
     </div>
-    <div>
-      <CloudIcon v-if="$props.forecast.summary == 'Clouds'" />
-      <SunIcon v-else />
+    <!-- <div :class="containerClass"> -->
+    <div
+      class="w-full md:w-3/5 h-full flex items-center bg-gray-100 rounded-lg"
+    >
+      <div class="px-12 py-2 w-full md:pr-24 md:pl-16 md:py-12">
+        <p class="text-xl">{{ hour }}</p>
+        <p class="text-xl">{{ temp }}&deg;</p>
+        <p class="text-md">feels like {{ feelsLike }}&deg;</p>
+      </div>
     </div>
-    <div>
-      <p class="text-xl">{{ temp }}&deg;</p>
-      <p class="text-md">feels like {{ feelsLike }}&deg;</p>
-    </div>
+    <slot></slot>
   </div>
 </template>
 
@@ -20,7 +33,7 @@ import { SunIcon, CloudIcon } from 'vue-feather-icons';
 import moment from 'moment';
 
 import { IForecast } from '@/interfaces';
-import { format, toDateTime } from '@/util/time';
+import { format, toDateTime, timeOfDay } from '@/util/time';
 
 @Component({
   components: {
@@ -29,18 +42,13 @@ import { format, toDateTime } from '@/util/time';
   },
 })
 export default class Forecast extends Vue {
-  @Prop() public forecast!: IForecast;
-  @Prop() private offset!: number;
+  @Prop({}) public forecast!: IForecast;
+  @Prop({}) private offset!: number;
+  @Prop({}) private active!: boolean;
 
   get hour(): string {
     const h: number = this.$props.forecast.hour;
-    if (h < 12) {
-      return `${h}am`;
-    } else if (h === 12) {
-      return '12pm';
-    } else {
-      return `${h - 12}pm`;
-    }
+    return timeOfDay(h);
   }
 
   get temp(): number {
@@ -60,12 +68,12 @@ export default class Forecast extends Vue {
 
   get containerClass(): any {
     return {
-      'current': this.current,
-      'past': this.past,
-      'future': !this.current && !this.past,
+      current: this.current,
+      past: this.past,
+      future: !this.current && !this.past,
       'p-2': true,
       'm-2': true,
-      'flex': true,
+      flex: true,
       'flex-col': true,
       'md:flex-row': true,
     };
